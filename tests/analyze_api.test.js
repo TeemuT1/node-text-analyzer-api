@@ -31,17 +31,20 @@ test('text with non-alphabet characters, capitals, and extra spaces', async () =
   expect(results.characterCount).toStrictEqual([{ 'e':2 },{ 'h':2 }, { 'l':2 },{ 'o':1 },])
 })
 
-test('fails with status 400 text empty', async () => {
+test('empty text', async () => {
   const text = {
     'text': ''
   }
   const response = await api
     .post('/analyze')
     .send(text)
-    .expect(400)
+    .expect(200)
 
   const results = response.body
-  expect(results).toStrictEqual({ 'error': 'The request body must have an object with a property called \'text\' which is not empty' })
+  expect(results.textLength.withSpaces).toBe(0)
+  expect(results.textLength.withoutSpaces).toBe(0)
+  expect(results.wordCount).toBe(0)
+  expect(results.characterCount).toStrictEqual([])
 })
 
 test('fails with status 400 sent text is a number', async () => {

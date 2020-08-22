@@ -6,9 +6,9 @@ const analyzeRouter = require('express').Router()
 analyzeRouter.post('/', (request, response) => {
   //check whether the request has the "text" property
   const body = request.body
-  if(!body.text) {
+  if(!('text' in body)) {
     return response.status(400).json({
-      error: 'The request body must have an object with a property called \'text\' which is not empty'
+      error: 'The request body must have an object with a property called \'text\''
     })
   }
   //check whether the text is a string
